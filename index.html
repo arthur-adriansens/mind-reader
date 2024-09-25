@@ -75,7 +75,8 @@
             document.querySelector("#submit").onclick = document.onkeypress = (e) => {
                 if (e.type == "keypress" && e.key != "Enter") return;
 
-                const number = Number(document.querySelector("#number").value);
+                const number = Number(document.querySelector("#number").value.replace(",", "."));
+                console.log(number);
                 if (!number) return;
                 document.body.classList.add("loading");
 

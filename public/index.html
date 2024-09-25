@@ -1,0 +1,99 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mind reader</title>
+        <style>
+            body, html {
+                margin: 0;
+                overflow: hidden;
+                height: 100%;
+                width: 100%;
+            }
+
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .progress-bar {
+                width: 50%;
+                height: 2rem;
+                margin: 1rem;
+                border-radius: 1rem;
+                border: 2px solid green;
+                background-color: lightgreen;
+                overflow: hidden;
+            }
+
+            .loading .progress-bar>div {
+                animation: load 10s forwards;
+                height: 2rem;
+                background-color: green;
+            }
+
+            .loading label, span, .progress-bar {
+                display: none;
+            }
+
+            .loading span, .loading .progress-bar {
+                display: block;
+            }
+
+            @keyframes load {
+                0% {width: 0%;}
+                100% {width: 100%;}
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Mind reader</h1>
+
+        <label>
+            Aan welk getal denk je:
+            <br />
+            <input id="number" />
+            <button id="submit">read</button>
+        </label>
+
+        <span></span>
+
+        <div class="progress-bar">
+            <div></div>
+        </div>
+        <p id="result"></p>
+
+        <script>
+            const sentences = ["reading wave length", "astablishing connection", "reading brain", "completed"];
+            document.querySelector("span").innerHTML = sentences[0];
+
+            document.querySelector("#submit").onclick = document.onkeypress = (e) => {
+                if (e.type == "keypress" && e.key != "Enter") return;
+
+                const number = document.querySelector("#number").value;
+                if (!/^\d+$/.test(number)) return;
+                document.body.classList.add("loading");
+
+                let i = 0;
+                const interval = setInterval(() => {
+                    i++;
+                    document.querySelector("span").innerHTML = sentences[i];
+
+                    if (i == sentences.length - 1) {
+                        document.querySelector("#result").innerHTML = `Je denkt aan het nummer ${number}!`;
+                        clearInterval(interval);
+                    }
+                }, 3 * 1000);
+            };
+
+            function isNumber(value) {
+                return typeof value == "number";
+            }
+        </script>
+    </body>
+</html>
